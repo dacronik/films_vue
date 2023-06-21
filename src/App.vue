@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <Films/>
+    <Galeria/>
   </div>
 </template>
 
 <script>
-import Films from '@/components/Films.vue';
+
+import Galeria from "@/components/Galeria"
 
 export default {
   name: 'App',
   components: {
-    Films
+    Galeria
   }
 }
 </script>

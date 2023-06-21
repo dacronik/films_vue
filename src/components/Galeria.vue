@@ -1,43 +1,28 @@
 <template>
     <div class="container">
-        <div class="films">
+        <div class="galeria">
             <h2>Galería</h2>
-            <div class="films_card">
-                <div class="card">
-                    <div class="card_image" v-for="film in films" :key="film.name">
-                        <img class="card-img-top" :src="film.src" alt="image" @click="showDescription(film.id)">
-                    </div>
-                </div>
+            <div class="galeria_card">
+                <espacio-galeria :galeria="info" @showDescription="showDesc"/>
             </div>
         </div>
-        <div class="description">
+        <div class="description" > 
             <h2>Descripcíon</h2>
-            <div class="description_body" v-if="selectFilm">
-                <div class="card-items">
-                    <div class="card">
-                    <img class="card-img-top" :src="selectFilm.src" alt="Title">
-                    <div class="card-body">
-                        <h4 class="card-title">Autor: {{selectFilm.autor}}</h4>
-                    </div>
-                    <button class="btn btn-danger" @click="selectFilm=null">Cerrar descripción</button>
-                </div>
-                </div>
-                <div class="card_description">
-                    <p>{{selectFilm.description}}</p>
-                </div>
-            </div>
-
+            <espacio-description  :description="selectImage" :show="show" @cerrarDesc="show=false"/>
         </div>
     </div>
 </template>
 
 <script>
+import EspacioGaleria from "@/components/EspacioGaleria"
+import EspacioDescription from "@/components/EspacioDescription"
+
 export default {
-    name: 'films-comp',
+    name: 'component-name',
     // props: {},
     data: function(){
         return {
-            films:[
+            info:[
                 {
                     id:1, 
                     name:"film 1",
@@ -99,21 +84,24 @@ export default {
                     Ipsa sed quidem accusantium velit rerum aliquid quo! Amet alias eum ratione nobis corrupti quidem commodi, laudantium aperiam ipsa illum perspiciatis deleniti rerum sapiente fugit sed rem beatae. Deleniti, omnis!`
                     },
             ],
-            selectFilm: null,
+            selectImage: {},
+            show: false
         }
     },
     // computed: {},
     methods: {
-        showDescription(id){
-            const film = this.films.find((film) =>film.id==id);
-            this.selectFilm=film
-            
-        },
-    }
+        showDesc(id){
+            const image = this.info.find(foto => foto.id ==id)
+            this.selectImage = image
+            this.show = true
+        }
+    },
     // watch: {},
-    // components: {},
+    components: {
+        "espacio-galeria":EspacioGaleria,
+        "espacio-description":EspacioDescription
+    },
     // mixins: [],
-    // filters: {},
     // -- Lifecycle Methods
     // -- End Lifecycle Methods
 }
@@ -125,37 +113,16 @@ export default {
         border: 1px solid black;
         display: flex;
     }
-    .films{
+    .galeria{
         flex-basis: 40%;
         max-height: 400px;
         overflow: auto;
     }
-    .films_card{
+    .galeria_card{
         display: flex;
         justify-content: center;
     }
     .description{
         flex-basis: 60%;
-    }
-    .card_image{
-        width: 240px;
-        margin: 0 auto;
-        border: 2px solid grey;
-        margin: 10px;
-    }
-    .description_body{
-        display: flex;
-    }
-    .card-items{
-        width: 40%;
-    }
-    .card_description{
-        border: 1px solid grey;
-        width: 60%;
-        max-height: 400px;
-        overflow: auto;
-    }
-    button{
-        margin: 20px 30px 20px 30px;
     }
 </style>
